@@ -6,6 +6,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.After;
@@ -37,6 +38,10 @@ public class StudentRepositoryTest {
 	private StudentRepository studentRepository;
 	private Student student1 = null;
 	private Student student2 = null;
+	
+	@Autowired
+	private AddressRepository addressRepository;
+	
 	@Autowired
 	public void setStudentRepository(StudentRepository studentRepository) {
 		this.studentRepository = studentRepository;
@@ -44,18 +49,33 @@ public class StudentRepositoryTest {
 
 	@Before
 	public void setUp() throws Exception {
+		List<Address> addresses= new ArrayList<>();
+		addresses.add(new Address(1, "street 1", "1"));
+		addresses.add(new Address(2, "street 2", "2"));
+		
+		Iterable<Address> adr = addressRepository.save(addresses);
+        List<Address> listAdd = new ArrayList<>();
+        adr.forEach(listAdd::add);
+		
 		student1 = new Student();
 		student1.setName("Pepe");
 		student1.setSurname("Rodriguez");
 		student1.setId(1232);
-		student1.setAddress(new Address());
+		student1.setAddress(listAdd);
 		studentRepository.save(student1);
 
+		List<Address> addresses2= new ArrayList<>();
+		addresses2.add(new Address(3, "street 3", "3"));
+		
+		Iterable<Address> adr2 = addressRepository.save(addresses2);
+        List<Address> listAdd2 = new ArrayList<>();
+        adr.forEach(listAdd2::add);
+		
 		student2 = new Student();
 		student2.setName("Luis");
 		student2.setSurname("Perez");
 		student2.setId(1233);
-		student2.setAddress(new Address());
+		student2.setAddress(listAdd2);
 		studentRepository.save(student2);
 		LOGGER.info("Starter test " + testName.getMethodName());
 	}

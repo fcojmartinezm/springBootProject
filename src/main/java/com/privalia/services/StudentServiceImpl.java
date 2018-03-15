@@ -1,10 +1,12 @@
 package com.privalia.services;
 
 
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.privalia.domain.Student;
 import com.privalia.repositories.StudentRepository;
@@ -31,13 +33,13 @@ public class StudentServiceImpl implements StudentService {
 		return studentRepository.findOne(id);
 	}
 	
-	@Override
+	@Transactional
 	public Student saveStudent(Student student) {
 		logger.debug("saveStudent called");
 		return studentRepository.save(student);
 	}
 	
-	@Override
+	@Transactional
 	public void deleteStudent(Integer id) {
 		logger.debug("deleteStudent called");
 		studentRepository.delete(id);

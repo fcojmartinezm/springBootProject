@@ -15,13 +15,11 @@ public class Address {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@ApiModelProperty(notes = "The database generated address ID")
 	private Integer id;
-	
-	@Version
+
 	@ApiModelProperty(notes = "The address street")
 	@NotNull
 	private String street;
 	
-	@Version
 	@ApiModelProperty(notes = "The address number")
 	@NotNull
 	private String number;
@@ -44,7 +42,7 @@ public class Address {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
+	
 	public String getStreet() {
 		return street;
 	}
@@ -60,4 +58,13 @@ public class Address {
 	public void setNumber(String number) {
 		this.number = number;
 	}
+	
+	@Override
+    public String toString() {
+        return "Address{" +
+                "id=" + id +
+                ", street='" + street + '\'' +
+                ", number=" + number +
+                '}';
+}
 }

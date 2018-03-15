@@ -1,15 +1,22 @@
 package com.privalia.domain;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.hibernate.annotations.DynamicUpdate;
 
 import io.swagger.annotations.ApiModelProperty;
 
 @Entity
+@DynamicUpdate(value = true)
 public class Student {
 	
 	@Id
@@ -17,25 +24,24 @@ public class Student {
 	@ApiModelProperty(notes = "The database generated student ID")
 	private Integer id;
 	
-	@Version
 	@ApiModelProperty(notes = "The student name")
 	@NotNull
 	private String name;
 	
-	@Version
 	@ApiModelProperty(notes = "The student surname")
 	@NotNull
 	private String surname;
 	
 	@ApiModelProperty(notes = "The student Address")
-	private Address address;
+	@OneToMany
+	private List<Address> address;
 	
 	public Student() {
 		super();
 
 	}
 	
-	public Student(Integer id, String name, String surname, Address address) {
+	public Student(Integer id, String name, String surname, List<Address> address) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -50,7 +56,7 @@ public class Student {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
+	
 	public String getName() {
 		return name;
 	}
@@ -67,11 +73,21 @@ public class Student {
 		this.surname = surname;
 	}
 
-	public Address getAddress() {
-		return address;
-	}
+	public List<Address> getAddress() {
+        return address;
+    }
 
-	public void setAddress(Address address) {
-		this.address = address;
-	}
+    public void setAddress(List<Address> address) {
+        this.address = address;
+    }
+    
+    @Override
+    public String toString() {
+        return "Student{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", address=" + address +
+                '}';
+    }
 }
